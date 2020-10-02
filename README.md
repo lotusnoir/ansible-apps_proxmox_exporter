@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.com/lotusnoir/ansible-apps_proxmox_exporter.svg?branch=master)](https://travis-ci.com/lotusnoir/ansible-apps_proxmox_exporter)[![License](https://img.shields.io/badge/license-MIT%20License-brightgreen.svg)](https://opensource.org/licenses/MIT)[![Ansible Role](https://img.shields.io/badge/ansible%20role-apps__proxmox_exporter-blue)](https://galaxy.ansible.com/lotusnoir/ansible-apps_proxmox_exporter/)[![GitHub tag](https://img.shields.io/badge/version-latest-blue)](https://github.com/lotusnoir/ansible-apps_proxmox_exporter/tags)
 
-Deploy [proxmox_exporter](https://github.com/boynux/proxmox-exporter) to expose proxmox metrics to prometheus.
+Deploy [proxmox_exporter](https://github.com/prometheus-pve/prometheus-pve-exporter) to expose proxmox metrics to prometheus.
 
 ## Role variables
 
