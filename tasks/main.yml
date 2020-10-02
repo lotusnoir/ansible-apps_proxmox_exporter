@@ -1,0 +1,43 @@
+---
+- name: "Check for pve_exporter binary"
+  stat:
+    path: "/usr/local/bin/pve_exporter"
+  changed_when: false
+  register: pve_exporter_binary
+
+- when: not pve_exporter_binary.stat.exists
+  block:
+    - name: "Install pip"
+      apt:
+        name: python-pip
+
+    - name: "Install package prometheus-pve-exporter"
+      pip:
+        name: prometheus-pve-exporter
+
+    - name: "Ensure proxmox_exporter directory exists"
+      file:
+        path: '{{ proxmox_exporter_install_dir }}'
+        state: directory
+        mode: 0755
+
+- name: "Create pve_exporter.yml"
+  template:
+    src: pve_exporter.yml
+    dest: "{{ proxmox_exporter_install_dir }}/pve_exporter.yml"
+    mode: 0644
+  notify: "restart proxmox_exporter"
+
+- name: "Create systemd for proxmox_exporter"
+  template:
+    src: proxmox_exporter.service.j2
+    dest: /etc/systemd/system/proxmox_exporter.service
+    mode: 0644
+  notify: "restart proxmox_exporter"
+
+- name: "Start proxmox_exporter.service"
+  systemd:
+    name: proxmox_exporter
+    state: started
+    enabled: true
+    daemon_reload: true

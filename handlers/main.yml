@@ -1,0 +1,5 @@
+---
+- name: "restart proxmox_exporter"
+  service:
+    name: "proxmox_exporter"
+    state: "restarted"

@@ -1,0 +1,14 @@
+{{ ansible_managed | comment }} 
+
+[Unit]
+Description=Proxmox VE Prometheus Exporter
+After=network.target
+Wants=network.target
+
+[Service]
+Restart=on-failure
+WorkingDirectory={{ proxmox_exporter_install_dir }}
+ExecStart=/usr/local/bin/pve_exporter {{ proxmox_exporter_install_dir }}/pve_exporter.yml {{ proxmox_exporter_listen_port }} {{ proxmox_exporter_listen_address }}
+
+[Install]
+WantedBy=multi-user.target
