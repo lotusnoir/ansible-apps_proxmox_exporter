@@ -1,7 +1,12 @@
 ---
-proxmox_exporter_version:   "1.2.0"
-proxmox_exporter_install_dir: /etc/proxmox_exporter/
-proxmox_exporter_user:      "pve_exporter@pve"
-proxmox_exporter_password:  ""
-proxmox_exporter_listen_port: 9111
-proxmox_exporter_listen_address: 127.0.0.1
+# Binary install
+proxmox_exporter_version:         "1.2.0"
+proxmox_exporter_config_dir:      '/etc/proxmox_exporter'
+proxmox_exporter_install_dir:     '/usr/local/bin'
+proxmox_exporter_force_install:   false
+
+# Systemd options
+proxmox_exporter_user:            "pve_exporter@pve"
+proxmox_exporter_password:        ""
+proxmox_exporter_listen_port:     9111
+proxmox_exporter_listen_address:  127.0.0.1

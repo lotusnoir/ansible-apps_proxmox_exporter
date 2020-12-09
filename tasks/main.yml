@@ -1,14 +1,21 @@
 ---
+- name: "End play if distribution not suported"
+  meta: end_host
+  when:
+    - ansible_distribution != "Debian"
+    - ansible_distribution != "Ubuntu"
+    - ansible_distribution != "CentOS"
+
 - name: "Check for pve_exporter binary"
   stat:
-    path: "/usr/local/bin/pve_exporter"
+    path: '{{ proxmox_exporter_install_dir }}/pve_exporter'
   changed_when: false
   register: pve_exporter_binary
 
-- when: not pve_exporter_binary.stat.exists
+- when: not pve_exporter_binary.stat.exists or proxmox_exporter_force_install|bool
   block:
     - name: "Install pip"
-      apt:
+      package:
         name: python-pip
 
     - name: "Install package prometheus-pve-exporter"
@@ -17,25 +24,25 @@
 
     - name: "Ensure proxmox_exporter directory exists"
       file:
-        path: '{{ proxmox_exporter_install_dir }}'
+        path: '{{ proxmox_exporter_config_dir }}'
         state: directory
         mode: 0755
 
 - name: "Create pve_exporter.yml"
   template:
-    src: pve_exporter.yml
-    dest: "{{ proxmox_exporter_install_dir }}/pve_exporter.yml"
+    src: 'pve_exporter.yml'
+    dest: '{{ proxmox_exporter_config_dir }}/pve_exporter.yml'
     mode: 0644
   notify: "restart proxmox_exporter"
 
 - name: "Create systemd for proxmox_exporter"
   template:
-    src: proxmox_exporter.service.j2
-    dest: /etc/systemd/system/proxmox_exporter.service
-    mode: 0644
+    src: 'proxmox_exporter.service.j2'
+    dest: '/etc/systemd/system/proxmox_exporter.service'
+    mode: '0640'
   notify: "restart proxmox_exporter"
 
-- name: "Start proxmox_exporter.service"
+- name: "Enable and Start proxmox_exporter.service"
   systemd:
     name: proxmox_exporter
     state: started

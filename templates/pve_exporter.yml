@@ -1,5 +1,5 @@
 ---
 default:
-    user: {{proxmox_exporter_user}}
-    password: {{proxmox_exporter_password}}
-    verify_ssl: false
+  user: {{proxmox_exporter_user}}
+  password: {{proxmox_exporter_password}}
+  verify_ssl: false
