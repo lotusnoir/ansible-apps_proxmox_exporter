@@ -1,8 +1,14 @@
 ---
 # Binary install
-proxmox_exporter_version:         "1.2.0"
+proxmox_exporter_version:         "2.1.2"
+proxmox_exporter_tgz:         "v{{ proxmox_exporter_version }}.tar.gz"
+proxmox_exporter_tgz_url:       "https://github.com/prometheus-pve/prometheus-pve-exporter/archive/refs/tags/{{ proxmox_exporter_tgz }}"
+
+
+
 proxmox_exporter_config_dir:      '/etc/proxmox_exporter'
 proxmox_exporter_install_dir:     '/usr/local/bin'
+proxmox_exporter_temp_dir:        '/tmp'
 proxmox_exporter_force_install:   false
 
 # Systemd options
