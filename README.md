@@ -1,36 +1,39 @@
-# Ansible Role: ansible-apps_proxmox_exporter
+# ansible-apps_proxmox_exporter
 
 ## Description
 
-[![Build Status](https://travis-ci.com/lotusnoir/ansible-apps_proxmox_exporter.svg?branch=master)](https://travis-ci.com/lotusnoir/ansible-apps_proxmox_exporter)[![License](https://img.shields.io/badge/license-Apache--2.0-brightgreen)](https://opensource.org/licenses/Apache-2.0)[![Ansible Role](https://img.shields.io/badge/ansible%20role-apps__proxmox_exporter-blue)](https://galaxy.ansible.com/lotusnoir/ansible-apps_proxmox_exporter/)[![GitHub tag](https://img.shields.io/badge/version-latest-blue)](https://github.com/lotusnoir/ansible-apps_proxmox_exporter/tags)
+[![Galaxy Role](https://img.shields.io/badge/galaxy-apps_proxmox_exporter-purple?style=flat)](https://galaxy.ansible.com/lotusnoir/apps_proxmox_exporter)
+[![Version](https://img.shields.io/github/release/lotusnoir/ansible-apps_proxmox_exporter.svg)](https://github.com/lotusnoir/ansible-apps_proxmox_exporter/releases/latest)
+![GitHub repo size](https://img.shields.io/github/repo-size/lotusnoir/ansible-apps_proxmox_exporter?color=orange&style=flat)
+[![downloads](https://img.shields.io/ansible/role/d/52262)](https://galaxy.ansible.com/lotusnoir/apps_proxmox_exporter)
+![Ansible Quality Score](https://img.shields.io/ansible/quality/52262)
+[![License](https://img.shields.io/badge/license-Apache--2.0-brightgreen?style=flat)](https://opensource.org/licenses/Apache-2.0)
 
 Deploy [proxmox_exporter](https://github.com/prometheus-pve/prometheus-pve-exporter) to expose proxmox metrics to prometheus.
 
+## Requirements
+
+none
+
 ## Role variables
 
-| Name           | Default Value | Description                        |
-| -------------- | ------------- | -----------------------------------|
-| `proxmox_exporter_version` | 1.2.0 | proxmox_exporter version |
-| `proxmox_exporter_install_dir` |  /etc/proxmox_exporter/| config directory |
-| `proxmox_exporter_user` | pve_exporter@pve | proxmox user |
-| `proxmox_exporter_password` | "" | password for proxmox user |
-| `proxmox_exporter_listen_port` | 9111 | proxmox_exporter listen port |
-| `proxmox_exporter_listen_address` | 127.0.0.1 | proxmox_exporter listen address |
+See [variables](/defaults/main.yml) for more details.
 
 ## Examples
 
-	---
-	- hosts: apps_proxmox_exporter
-	  become: yes
-	  become_method: sudo
-	  gather_facts: yes
-	  roles:
-	    - role: ansible-apps_proxmox_exporter
-	  environment: 
-	    http_proxy: "{{ http_proxy }}"
-	    https_proxy: "{{ https_proxy }}"
-	    no_proxy: "{{ no_proxy }}
+        ---
+        - hosts: apps_proxmox_exporter
+          become: true
+          become_method: sudo
+          gather_facts: true
+          roles:
+            - role: ansible-apps_proxmox_exporter
+
+## Grafana Dashboard
+
+You can find a grafana dashboard [here](https://grafana.com/grafana/dashboards/13556)
 
 ## License
 
 This project is licensed under Apache License. See [LICENSE](/LICENSE) for more details.
+

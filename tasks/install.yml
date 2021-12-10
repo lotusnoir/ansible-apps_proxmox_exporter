@@ -34,7 +34,7 @@
         mode: '0644'
 
     - name: "Ensure dependencies are installed."
-      apt:
+      package:
         name:
           - python3-setuptools
         state: present
