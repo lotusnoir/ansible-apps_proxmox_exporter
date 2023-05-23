@@ -1,32 +1,33 @@
 ---
 - name: "Check for pve_exporter binary"
-  stat:
+  ansible.builtin.stat:
     path: '{{ proxmox_exporter_install_dir }}/pve_exporter'
   changed_when: false
   register: pve_exporter_binary
 
-- when: not pve_exporter_binary.stat.exists or proxmox_exporter_force_install|bool
+- name: "Install tasks"
+  when: not pve_exporter_binary.stat.exists or proxmox_exporter_force_install|bool
   block:
     - name: "Install requierements"
-      package:
+      ansible.builtin.package:
         name: "ca-certificates"
         state: present
 
     - name: "Download proxmox_exporter..."
-      get_url:
+      ansible.builtin.get_url:
         url: '{{ proxmox_exporter_tgz_url }}'
         dest: '{{ proxmox_exporter_temp_dir }}/{{ proxmox_exporter_tgz }}'
         timeout: '60'
         mode: '0644'
 
     - name: "Ensure proxmox_exporter directory exists"
-      file:
+      ansible.builtin.file:
         path: '{{ proxmox_exporter_temp_dir }}/proxmox_exporter'
         state: directory
         mode: 0755
 
     - name: "Unarchive proxmox_exporter..."
-      unarchive:
+      ansible.builtin.unarchive:
         src: '{{ proxmox_exporter_temp_dir }}/{{ proxmox_exporter_tgz }}'
         dest: '{{ proxmox_exporter_temp_dir }}/proxmox_exporter'
         extra_opts: [--strip-components=1]
@@ -34,50 +35,48 @@
         mode: '0644'
 
     - name: "Ensure dependencies are installed."
-      package:
+      ansible.builtin.package:
         name:
           - python3-setuptools
         state: present
 
     - name: "Install proxmox_exporter binary"
-      command: python3 setup.py install
+      ansible.builtin.command: python3 setup.py install
       args:
         chdir: "{{ proxmox_exporter_temp_dir }}/proxmox_exporter/"
+      changed_when: false
 
-
-        #    #    - name: "Install pip"
-        #    #      package:
-        #    #        name: python-pip
-        #
-        #
-        #
-        #    - name: "Install package prometheus-pve-exporter"
-        #      pip:
-        #        name: prometheus-pve-exporter
-        #        executable: pip3
+    #- name: "Install pip"
+    #  package:
+    #    name: python3-pip
+    #
+    #- name: "Install package prometheus-pve-exporter"
+    #  pip:
+    #    name: prometheus-pve-exporter
+    #    executable: pip3
 
     - name: "Ensure proxmox_exporter directory exists"
-      file:
+      ansible.builtin.file:
         path: '{{ proxmox_exporter_config_dir }}'
         state: directory
         mode: 0755
 
 - name: "Create pve_exporter.yml"
-  template:
+  ansible.builtin.template:
     src: 'pve_exporter.yml'
     dest: '{{ proxmox_exporter_config_dir }}/pve_exporter.yml'
     mode: 0644
   notify: "restart proxmox_exporter"
 
 - name: "Create systemd for proxmox_exporter"
-  template:
+  ansible.builtin.template:
     src: 'proxmox_exporter.service.j2'
     dest: '/etc/systemd/system/proxmox_exporter.service'
     mode: '0640'
   notify: "restart proxmox_exporter"
 
 - name: "Enable and Start proxmox_exporter.service"
-  service:
+  ansible.builtin.service:
     name: proxmox_exporter
     state: started
     enabled: true

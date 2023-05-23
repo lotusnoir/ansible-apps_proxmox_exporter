@@ -14,10 +14,9 @@ galaxy_info:
     - name: "Debian"
       versions:
         - "bullseye"
-        - "buster"
-    - name: "RedHat"
+    - name: "OracleLinux"
       versions:
-        - "Maipo"
+        - "9"
 
   galaxy_tags:
     - proxmox
