@@ -1,5 +1,5 @@
 ---
-- name: "restart proxmox_exporter"
+- name: "Restart proxmox_exporter"
   ansible.builtin.service:
     name: "proxmox_exporter"
     state: "restarted"

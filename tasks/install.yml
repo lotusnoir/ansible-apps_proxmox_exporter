@@ -66,14 +66,14 @@
     src: 'pve_exporter.yml'
     dest: '{{ proxmox_exporter_config_dir }}/pve_exporter.yml'
     mode: 0644
-  notify: "restart proxmox_exporter"
+  notify: "Restart proxmox_exporter"
 
 - name: "Create systemd for proxmox_exporter"
   ansible.builtin.template:
     src: 'proxmox_exporter.service.j2'
     dest: '/etc/systemd/system/proxmox_exporter.service'
     mode: '0640'
-  notify: "restart proxmox_exporter"
+  notify: "Restart proxmox_exporter"
 
 - name: "Enable and Start proxmox_exporter.service"
   ansible.builtin.service:
