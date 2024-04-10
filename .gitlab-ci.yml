@@ -12,18 +12,6 @@ variables:
 ######################################################
 # RUN MOLECULE FOR EACH DISTRIB
 ######################################################
-molecule_ubuntu20:
-  stage: molecule
-  image: lotusnoir/molecule_play
-  variables:
-    MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
-  script:
-    - MOLECULE_DISTRIB=ubuntu20 molecule test
-molecule_ubuntu22:
-  stage: molecule
-  image: lotusnoir/molecule_play
-  script:
-    - MOLECULE_DISTRIB=ubuntu22 molecule test
 molecule_debian12:
   stage: molecule
   image: lotusnoir/molecule_play
@@ -39,6 +27,18 @@ molecule_oraclelinux9:
   image: lotusnoir/molecule_play
   script:
     - MOLECULE_DISTRIB=oraclelinux9 molecule test
+molecule_ubuntu22:
+  stage: molecule
+  image: lotusnoir/molecule_play
+  script:
+    - MOLECULE_DISTRIB=ubuntu22 molecule test
+molecule_ubuntu20:
+  stage: molecule
+  image: lotusnoir/molecule_play
+  variables:
+    MOLECULE_DOCKER_COMMAND: "--cap-add NET_ADMIN"
+  script:
+    - MOLECULE_DISTRIB=ubuntu20 molecule test
 
 ######################################################
 # GENERATE CHANGELOG FILE
@@ -47,11 +47,11 @@ changelog:
   stage: changes
   image: node:19
   needs:
-    - molecule_ubuntu20
-    - molecule_ubuntu22
     - molecule_debian12
     - molecule_debian11
     - molecule_oraclelinux9
+    - molecule_ubuntu22
+    - molecule_ubuntu20
   artifacts:
     paths:
       - CHANGELOG.md
