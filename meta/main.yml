@@ -13,9 +13,15 @@ galaxy_info:
         - "focal"
     - name: "Debian"
       versions:
-        - "bookworm"
         - "bullseye"
+        - "bookworm"
+    - name: "Rocky"
+      versions:
+        - "9"
     - name: "OracleLinux"
+      versions:
+        - "9"
+    - name: "RedHat"
       versions:
         - "9"
 

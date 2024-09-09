@@ -24,7 +24,7 @@
       ansible.builtin.file:
         path: '{{ proxmox_exporter_temp_dir }}/proxmox_exporter'
         state: directory
-        mode: 0755
+        mode: '0755'
 
     - name: "Unarchive proxmox_exporter..."
       ansible.builtin.unarchive:
@@ -59,13 +59,13 @@
       ansible.builtin.file:
         path: '{{ proxmox_exporter_config_dir }}'
         state: directory
-        mode: 0755
+        mode: '0755'
 
 - name: "Create pve_exporter.yml"
   ansible.builtin.template:
     src: 'pve_exporter.yml'
     dest: '{{ proxmox_exporter_config_dir }}/pve_exporter.yml'
-    mode: 0644
+    mode: '0644'
   notify: "Restart proxmox_exporter"
 
 - name: "Create systemd for proxmox_exporter"
